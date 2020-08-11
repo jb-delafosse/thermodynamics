@@ -1,7 +1,11 @@
+from typing import List, Optional
+
 import numpy as np
 
 
-def get_r_and_q(subgroups, nu, smiles=""):
+def get_r_and_q(
+    subgroups: Optional[List[str]], nu: np.ndarray, smiles: Optional[str] = ""
+):
     """
     Calculates van der Waals volume (r_i) and surface area (q_i) for a single
         component
@@ -16,8 +20,8 @@ def get_r_and_q(subgroups, nu, smiles=""):
     Outgoing parameters:
         r = van der Waals volume for component i
         q = van der Waals surface area for component i
-        R_pure = van der Waals volume for each subgroup in compoenent i
-        Q_pure = van der Waals surface area for each subgroup in compoenent i
+        R_pure = van der Waals volume for each subgroup in component i
+        Q_pure = van der Waals surface area for each subgroup in component i
     Prerequisite:
         File "unifac_R_Q_params.txt" must be present in same folder as
             module
@@ -46,12 +50,19 @@ def get_r_and_q(subgroups, nu, smiles=""):
     filename = "unifac_R_Q_params.txt"  # Modify file location if needed
 
     if not subgroups:  # No subgroups (and nu) provided
-        pass  # TODO: call automatic decomposition
+        raise NotImplementedError(
+            "Automatic Decomposition not implemented."
+        )  # TODO: call automatic decomposition
+
+    if not subgroups and not smiles:
+        raise Exception(
+            "If Subgroups are missing, must provide SMILES for automatic decomposition."
+        )
 
     with open(filename) as f_obj:
-        params = f_obj.read()  # Read all contents
+        params_str = f_obj.read()  # Read all contents
 
-    params = params.split()  # Remove all spacing
+    params = params_str.split()  # Remove all spacing
     params = params[35:]  # Remove all unnecessary comments
 
     R_pure = np.empty(len(subgroups))
