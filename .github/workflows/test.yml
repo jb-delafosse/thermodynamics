@@ -1,41 +1,37 @@
 name: Test
 
-on: 
+on:
   pull_request: {}
   push:
     branches: master
     tags: "*"
 
 jobs:
-  test:
+  configure:
     runs-on: ubuntu-latest
+    outputs:
+      containerUser: ${{ steps.get-user.outputs.containerUser }}
+    steps:
+      - id: get-user
+        run: echo "::set-output name=containerUser::`id -u`:`id -g`"
+  test:
+    needs: configure
+    runs-on: ubuntu-latest
+    container:
+      image: docker.pkg.github.com/jb-delafosse/thermodynamics/thermodynamics:latest
+      options: --user ${{ needs.configure.outputs.containerUser }}
+      credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
       - name: Install dependencies with pipenv
         run: |
           pip install pipenv
-          pipenv install --deploy --dev
+          pipenv install --deploy --dev --site-packages
 
-      - run: pipenv run isort --recursive --diff
+      - run: pipenv run isort . --check --diff
       - run: pipenv run black --check .
       - run: pipenv run flake8
       - run: pipenv run mypy
-      - run: pipenv run pytest --cov --cov-fail-under=100
-
-  docker-image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build docker image
-        run: docker build . -t thermodynamics:test
-
-      - name: Smoke test docker image
-        run: |
-          docker run --rm thermodynamics:test 10
+      - run: pipenv run pytest --cov --cov-fail-under=95
