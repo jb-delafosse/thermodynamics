@@ -1,6 +1,6 @@
 name: Test
 
-on: 
+on:
   pull_request: {}
   push:
     branches: master
@@ -22,7 +22,7 @@ jobs:
           pip install pipenv
           pipenv install --deploy --dev
 
-      - run: pipenv run isort --recursive --diff
+      - run: pipenv run isort . --check --diff
       - run: pipenv run black --check .
       - run: pipenv run flake8
       - run: pipenv run mypy
