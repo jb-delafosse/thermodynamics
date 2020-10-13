@@ -105,4 +105,5 @@ USER appuser
 # Install application into container
 COPY . .
 
-CMD /bin/bash
+ENTRYPOINT tail -f /dev/null
+CMD [ "/bin/bash" ]
