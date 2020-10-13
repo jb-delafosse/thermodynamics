@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: informaticsmatters/rdkit-python-debian:Release_2020_03_4 python
     steps:
       - uses: actions/checkout@v2
 
@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies with pipenv
         run: |
           pip install pipenv
-          pipenv install --deploy --dev
+          pipenv install --deploy --dev --site-packages
 
       - run: pipenv run isort . --check --diff
       - run: pipenv run black --check .
