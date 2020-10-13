@@ -87,12 +87,6 @@ COPY --from=rdkit-build-env /usr/lib/python3/dist-packages/rdkit /usr/lib/python
 RUN pip install pipenv
 RUN apt-get update && apt-get install -y --no-install-recommends gcc
 
-# Install python dependencies in /.venv
-COPY Pipfile .
-COPY Pipfile.lock .
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --site-packages
-
-
 # install git
 RUN apt update
 RUN apt install -y git
