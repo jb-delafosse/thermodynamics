@@ -94,6 +94,10 @@ COPY Pipfile .
 COPY Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --site-packages
 
+# Install git
+RUN apt update
+RUN apt install -y git
+
 
 FROM base AS runtime
 
