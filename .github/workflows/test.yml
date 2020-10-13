@@ -8,15 +8,14 @@ on:
 
 jobs:
   test:
-    runs-on: informaticsmatters/rdkit-python-debian:Release_2020_03_4 python
+    runs-on: ubuntu-latest
+    container:
+      image: docker.pkg.github.com/jb-delafosse/thermodynamics/thermodynamics:latest
+      credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
       - name: Install dependencies with pipenv
         run: |
           pip install pipenv
@@ -27,15 +26,3 @@ jobs:
       - run: pipenv run flake8
       - run: pipenv run mypy
       - run: pipenv run pytest --cov --cov-fail-under=95
-
-  docker-image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build docker image
-        run: docker build . -t thermodynamics:test
-
-      - name: Smoke test docker image
-        run: |
-          docker run --rm thermodynamics:test 10
