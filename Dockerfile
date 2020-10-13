@@ -55,7 +55,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
 
 
-FROM base AS python-deps
+FROM base AS runtime
 
 # Install runtime dependencies
 RUN apt-get update \
@@ -93,15 +93,9 @@ COPY Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --site-packages
 
 
-FROM base AS runtime
-
 # install git
 RUN apt update
 RUN apt install -y git
-
-# Copy virtual env from python-deps stage
-COPY --from=python-deps /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
 
 # Create and switch to a new user
 RUN useradd --create-home appuser

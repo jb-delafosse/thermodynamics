@@ -4,4 +4,3 @@
 # ... except for dependencies and source
 !Pipfile
 !Pipfile.lock
-!thermodynamics
