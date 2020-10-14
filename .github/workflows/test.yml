@@ -7,10 +7,19 @@ on:
     tags: "*"
 
 jobs:
+  configure:
+    runs-on: ubuntu-latest
+    outputs:
+      containerUser: ${{ steps.get-user.outputs.containerUser }}
+    steps:
+      - id: get-user
+        run: echo "::set-output name=containerUser::`id -u`:`id -g`"
   test:
+    needs: configure
     runs-on: ubuntu-latest
     container:
       image: docker.pkg.github.com/jb-delafosse/thermodynamics/thermodynamics:latest
+      options: --user ${{ needs.configure.outputs.containerUser }}
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
