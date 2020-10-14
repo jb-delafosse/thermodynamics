@@ -33,7 +33,7 @@ RUN cmake -Wno-dev \
     -D CMAKE_BUILD_TYPE=Release \
     -D CMAKE_INSTALL_PREFIX=/usr \
     -D Boost_NO_BOOST_CMAKE=ON \
-    -D PYTHON_EXECUTABLE=/usr/bin/python3 \
+    -D PYTHON_EXECUTABLE=/usr/bin/python3.8 \
     -D RDK_BUILD_AVALON_SUPPORT=ON \
     -D RDK_BUILD_CAIRO_SUPPORT=ON \
     -D RDK_BUILD_CPP_TESTS=OFF \
@@ -81,7 +81,7 @@ COPY --from=rdkit-build-env /usr/lib/libRDKit* /usr/lib/
 COPY --from=rdkit-build-env /usr/lib/cmake/rdkit/* /usr/lib/cmake/rdkit/
 COPY --from=rdkit-build-env /usr/share/RDKit /usr/share/RDKit
 COPY --from=rdkit-build-env /usr/include/rdkit /usr/include/rdkit
-COPY --from=rdkit-build-env /usr/lib/python3/dist-packages/rdkit /usr/lib/python3/dist-packages/rdkit
+COPY --from=rdkit-build-env /usr/lib/python3.8/site-packages/rdkit /usr/local/lib/python3.8/site-packages/rdkit
 
 # Install pipenv and compilation dependencies
 RUN pip install pipenv
