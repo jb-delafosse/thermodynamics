@@ -15,6 +15,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - run: git --version
       - uses: actions/checkout@v2
         env:
             GIT_TRACE: 1
