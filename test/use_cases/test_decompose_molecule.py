@@ -4,7 +4,9 @@ from ordered_set import OrderedSet
 from rdkit.Chem import AllChem, MolFromSmiles
 
 from thermodynamics.groupdecomposition.dto import FunctionalGroupDefinition
-from thermodynamics.groupdecomposition.usecase import SimpleGroupDecomposition
+from thermodynamics.groupdecomposition.use_cases.decompose_molecule import (
+    SimpleGroupDecomposition,
+)
 
 
 class TestSimpleGroupDecomposition(TestCase):
