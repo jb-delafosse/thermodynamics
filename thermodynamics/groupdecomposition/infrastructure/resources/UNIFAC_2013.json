@@ -92,7 +92,7 @@
 {"name":"H2COCH","smart":"[CH1]1[OH0D2][CH2]1"}
 {"name":"HCOCH","smart":"O1[CH1][CH1]1"}
 {"name":"OCH","smart":"[CH1]-[OH0D2]"}
-{"name":"OH","smart":"[OH1;$(*-C)]"}
+{"name":"OH","smart":"[OH1;$(*-C)][H]"}
 {"name":"Cl-(C=C)","smart":"[Cl;$(*-C=C)]"}
 {"name":"CH3CN","smart":"[CH3][CH0]#N"}
 {"name":"Furfur-C","smart":"[cH0]1[oH0r5][cH0]([CH1]=[OH0])[cH1][cH1]1"}
@@ -139,7 +139,7 @@
 {"name":"CF","smart":"[CH0]F"}
 {"name":"Br","smart":"[$([BrD1]);!$(*-c)]"}
 {"name":"CH3","smart":"[CH3]"}
-{"name":"CH2","smart":"[CH2;!$(*=C)]"}
+{"name":"CH2","smart":"[H][CH2;!$(*=C)][H]"}
 {"name":"ACH","smart":"[cH1]"}
 {"name":"CH","smart":"[CH1]"}
 {"name":"ACCN","smart":"[NH0]#[CH0][cH0]"}
