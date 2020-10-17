@@ -39,6 +39,7 @@ class SmartStr(fields.Field):
 class FunctionalGroupDefinitionSchema(Schema):
     smart = SmartStr()
     name = fields.Str()
+    id = fields.Integer()
 
     @post_load
     def make_object(self, data, **kwargs):
@@ -54,6 +55,7 @@ class MarshmallowPredefinedDecompositionLoader(IPredefinedDecompositionLoader):
         output = OrderedSet()
         if not filepath:
             raise NotImplementedError
+        ids = []
         with open(filepath) as file:
             schema = FunctionalGroupDefinitionSchema()
             for line_count, line in enumerate(file):
@@ -70,6 +72,10 @@ class MarshmallowPredefinedDecompositionLoader(IPredefinedDecompositionLoader):
                     raise ValueError(
                         f"Line {line_count} is not a proper functional group."
                     ) from error
-
+                ids.append(functional_group.id)
                 output.add(functional_group)
+            if set(ids) != set(range(1, line_count + 2)):
+                raise ValueError(
+                    f"Error in Ids : Missing Index {set(range(1, line_count+2))-set(ids)}, Not expected index {set(ids)-set(range(1, line_count+2))}"
+                )
         return output

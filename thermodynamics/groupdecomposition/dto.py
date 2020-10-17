@@ -9,6 +9,7 @@ from ordered_set import OrderedSet
 class FunctionalGroupDefinition:
     name: str
     smart: str
+    id: int
 
 
 GroupDecompositionDict = DefaultDict[FunctionalGroupDefinition, int]

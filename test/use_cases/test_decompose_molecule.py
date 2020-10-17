@@ -53,8 +53,8 @@ def test_process():
     molecule = AllChem.AddHs(MolFromSmiles("OCCCO"))
     functional_groups = OrderedSet(
         (
-            FunctionalGroupDefinition(smart="[OH1;$(*-C)][H]", name="OH"),
-            FunctionalGroupDefinition(smart="[H][CH2;!$(*=C)][H]", name="CH2"),
+            FunctionalGroupDefinition(smart="[OH1;$(*-C)][H]", name="OH", id=1),
+            FunctionalGroupDefinition(smart="[H][CH2;!$(*=C)][H]", name="CH2", id=2),
         )
     )
 
@@ -77,8 +77,8 @@ def test_process_not_entirely_decomposed():
     molecule = AllChem.AddHs(MolFromSmiles("OCC(C)CO"))
     functional_groups = OrderedSet(
         (
-            FunctionalGroupDefinition(smart="[OH1;$(*-C)][H]", name="OH"),
-            FunctionalGroupDefinition(smart="[H][CH2;!$(*=C)][H]", name="CH2"),
+            FunctionalGroupDefinition(smart="[OH1;$(*-C)][H]", name="OH", id=1),
+            FunctionalGroupDefinition(smart="[H][CH2;!$(*=C)][H]", name="CH2", id=2),
         )
     )
 

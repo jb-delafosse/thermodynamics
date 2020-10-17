@@ -11,9 +11,13 @@ from thermodynamics.groupdecomposition.infrastructure.marshmallow_decomposition_
 @pytest.mark.parametrize(
     "line, expected_exception",
     [
-        ("not json", ValueError),
-        ('{"name": "OH"}', ValueError),
-        ('{"name": "OH", "smart": "not-a-smart"}', ValueError),
+        ("not json", ValueError),  # Not a Json
+        ('{"name": "OH", "id": 1}', ValueError),  # Missing Attribute
+        ('{"name": "OH", "smart": "not-a-smart", "id": 1}', ValueError),  # Bad SMART
+        (
+            '{"name":"AC2H2O","smart":"[cH1][oH0r5][cH1]", "id":  10}',
+            ValueError,
+        ),  # Error with ids
     ],
 )
 def test_eval(line, expected_exception):
