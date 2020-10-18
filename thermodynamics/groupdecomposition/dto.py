@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import DefaultDict
+from typing import Tuple
 
 from ordered_set import OrderedSet
 
@@ -12,7 +12,7 @@ class FunctionalGroupDefinition:
     id: int
 
 
-GroupDecompositionDict = DefaultDict[FunctionalGroupDefinition, int]
+GroupDecomposition = Tuple[int, ...]
 DecompositionFunctionalGroups = OrderedSet[FunctionalGroupDefinition]
 
 

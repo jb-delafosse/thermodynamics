@@ -4,10 +4,7 @@ import pytest
 from ordered_set import OrderedSet
 from rdkit.Chem import AllChem, MolFromSmiles
 
-from thermodynamics.groupdecomposition.dto import (
-    FunctionalGroupDefinition,
-    PredefinedGroupDecompositionMethod,
-)
+from thermodynamics.groupdecomposition.dto import FunctionalGroupDefinition
 from thermodynamics.groupdecomposition.infrastructure.marshmallow_decomposition_loader import (
     MarshmallowPredefinedDecompositionLoader,
 )
@@ -29,20 +26,21 @@ def mock_loader() -> Generator[loader.IPredefinedDecompositionLoader, None, None
         del loader.PREDEFINED_DECOMPOSITION_LOADER
 
 
-def test_load():
+def test_load(predefined_decomposition_method, smiles, expected_decomposition):
     # GIVEN
     # - a molecule
     # - unifac decomposition
-    molecule = AllChem.AddHs(MolFromSmiles("OCCCO"))
-    unifac_decompo = load(PredefinedGroupDecompositionMethod.UNIFAC_2013)
+    molecule = AllChem.AddHs(MolFromSmiles(smiles))
+    decomposition_method = load(predefined_decomposition_method)
 
     # WHEN
     # - using the decomposition on the molecule
-    result = unifac_decompo.process((molecule,))
+    decomposition = decomposition_method.process((molecule,))
 
     # THEN
     # - the decomposition is performed correctly
-    assert result
+    assert len(decomposition[0]) == len(expected_decomposition)
+    assert decomposition[0] == expected_decomposition
 
 
 def test_process():
@@ -66,8 +64,8 @@ def test_process():
 
     # THEN
     # - The molecule is decomposed correctly
-    assert group_decompositions[0][functional_groups[0]] == 2
-    assert group_decompositions[0][functional_groups[1]] == 3
+    assert group_decompositions[0][0] == 2
+    assert group_decompositions[0][1] == 3
 
 
 def test_process_not_entirely_decomposed():
